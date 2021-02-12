@@ -1,0 +1,30 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap");
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap-vue/src/index.scss';
+@import "variables";
+@import "~@coreui/coreui/scss/coreui";
+@import "custom";
+
+.card-header:not(.content-center) > .c-icon:first-child {
+  margin-right: 0.1rem;
+  margin-top: 0.1rem;
+  vertical-align: top;
+  width: 1.2rem;
+  height: 1.2rem;
+  font-size: 1.2rem;
+}
+
+.sammy-nowrap-2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+svg {
+  vertical-align: unset !important;
+}
+
+label {
+  margin-bottom: 0 !important;
+}

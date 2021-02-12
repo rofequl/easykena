@@ -1,0 +1,534 @@
+// Here you can add other styles
+.c-app {
+  color: #3c4b64;
+  background-color: #f2f3f8;
+  --color: #3c4b64;
+}
+
+body {
+  font-family: sans-serif!important;
+  font-size: 14px;
+}
+
+a {
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ded1d1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #b1aaaa;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #9b9494;
+}
+
+/*Header Top Style*/
+.header-wrapper {
+  background: #fff;
+}
+
+.header-wrapper .logo-search-section {
+  position: fixed;
+  width: 100%;
+  height: auto;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  z-index: 10;
+  transition: top .3s;
+  box-shadow: -3px 4px 5px 0px #6f67673b;
+}
+
+.headerTopValue{
+  top: 42px!important;
+  transition: all 0.5s;
+}
+
+.header-wrapper .logo-search-section .card-wrapper a {
+  margin-left: 5px;
+}
+
+.header-top a {
+  font-size: 16px;
+  color: #000;
+}
+
+/*Logo Search Section Style*/
+.logo-search-section .cus-input-group {
+  align-items: center;
+  width: 90%;
+  height: 100%;
+}
+
+.logo-search-section .cus-input-group .input-group-prepend button,
+.logo-search-section .cus-input-group input {
+  border-color: #F05931;
+  border-width: 1px;
+}
+
+.logo-search-section .cus-input-group .input-group-prepend button {
+  /*padding: .3rem .75rem;*/
+  border-right: 0;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  /*border-width: 2px;*/
+}
+
+.logo-search-section .logo {
+  height: 61px;
+}
+
+.logo-search-section .cus-input-group .input-group-prepend button:hover,
+.logo-search-section .cus-input-group .input-group-prepend button:focus,
+.logo-search-section .cus-input-group .input-group-prepend button:active,
+.logo-search-section .cus-input-group input:focus {
+  color: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  outline: 0;
+}
+
+.logo-search-section .cus-input-group input {
+  border-left-color: #f05931;
+  height: calc(1.2em + .69rem + 7px);
+}
+
+.logo-search-section .cus-input-group button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  background: #f05931;
+  border-color: #f05931;
+  color: #fff;
+}
+
+.logo-search-section .cus-input-group button:focus,
+.logo-search-section .cus-input-group button:hover {
+  background: #f05931;
+  box-shadow: none;
+}
+
+.logo-search-section form,
+.logo-search-section .add-to-card-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.logo-search-section .add-to-card-wrapper a {
+  margin-right: 15px;
+}
+
+.logo-search-section .add-to-card-wrapper a:last-child {
+  margin-right: 0;
+}
+
+.logo-search-section .add-to-card-wrapper i {
+  font-size: 24px;
+  vertical-align: text-top;
+}
+
+.logo-search-section .add-to-card-wrapper span {
+  vertical-align: top;
+}
+
+.logo-search-section .badge {
+  background-color: #f05931;
+}
+
+.main-menu {
+  margin-top: 62px;
+}
+
+.all-category{
+  background-color: #f05931;
+  color: white;
+  line-height: 30px;
+  font-size: 15px;
+  padding: 5px;
+}
+
+.product-item-categoryHeader {
+  clear: both;
+  display: flex;
+}
+
+.product-item-categoryHeader hr {
+  margin-top: 18px;
+  float: left;
+  height: 2px;
+  flex-grow: 4;
+  background-color: #e0d6d6;
+  border-bottom: none;
+}
+
+.product-item-categoryHeader .name {
+  flex-grow: 1;
+  -webkit-flex-grow: 1;
+  float: left;
+  font-size: 23px;
+  color: #726c6c;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.weekly-market-wrapper {
+  margin-top: 30px;
+}
+
+.weekly-market-wrapper .page-title {
+  margin-bottom: 25px;
+  font-size: 21px;
+  text-transform: uppercase;
+  font-weight: 600;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.weekly-market-wrapper .page-title::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: auto;
+  transform: translate(0, -50%);
+  width: 100%;
+  border: 1px solid #f05931;
+  margin-left: 25px;
+  border-radius: 4px;
+}
+
+.weekly-market-wrapper .custom-feature-grid {
+  color: #fff;
+  padding: 20px;
+  background-size: cover;
+  background-repeat: round;
+  height: 242px;
+  position: relative;
+}
+
+.weekly-market-wrapper .custom-feature-grid h4 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.weekly-market-wrapper .custom-feature-grid p {
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.weekly-market-wrapper .custom-feature-grid .offer-counter {
+  margin-bottom: 40px;
+}
+
+.weekly-market-wrapper .custom-feature-grid .offer-counter span {
+  background: #fff;
+  color: #f05931;
+  padding: 2%;
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.weekly-market-wrapper .custom-feature-grid .btn-more {
+  background-color: #fff;
+  color: #f23a3a;
+  padding: 10px 20px;
+  border-radius: 19px;
+  font-size: 14px;
+}
+
+.weekly-market-wrapper .custom-feature-grid .btn-more-bottom {
+  position: absolute;
+  bottom: 28px;
+}
+
+.grid-bg-pad {
+  background: #fff;
+  padding: 30px;
+  border-radius: 4px;
+}
+
+
+@media screen and (max-width: 374px) {
+  /*Logo Search Section*/
+  .logo-search-section .col-md-2 {
+    position: relative;
+    top: -71px;
+    left: 130px;
+    text-align: right;
+  }
+
+  .logo-search-section .logo {
+    height: 40px;
+  }
+
+  .logo-search-section {
+    margin-top: 0 !important;
+  }
+
+  .logo-search-section .col-md-3 img {
+    width: 134px !important;
+  }
+
+  .logo-search-section .col-md-2 img {
+    width: 18px !important;
+  }
+
+  .logo-search-section .col-md-2 a {
+    margin-right: 8px;
+  }
+
+  .logo-search-section .col-md-2 a sup {
+    font-size: 52%;
+    padding: 1px;
+  }
+
+  .logo-search-section input {
+    padding: 1px 5px;
+    height: 23px;
+  }
+
+  .logo-search-section button {
+    border-radius: 0 35px 35px 0;
+    padding: 1px 7px;
+    font-size: inherit;
+  }
+
+  .logo-search-section .cus-input-group input {
+    height: calc(1.5em + .75rem + -7px);
+  }
+}
+
+/* Small Device col-*/
+@media only screen and (min-width: 375px) and (max-width: 575px) {
+  /*Logo Search Section*/
+  .logo-search-section .col-md-2 {
+    position: relative;
+    top: -71px;
+    left: 182px;
+    text-align: right;
+  }
+
+  .logo-search-section .logo {
+    height: 40px;
+  }
+
+  .logo-search-section {
+    margin-top: 0 !important;
+  }
+
+  .logo-search-section .col-md-3 img {
+    width: 134px !important;
+  }
+
+  .logo-search-section .col-md-2 img {
+    width: 18px !important;
+  }
+
+  .logo-search-section .col-md-2 a {
+    margin-right: 8px;
+  }
+
+  .logo-search-section .col-md-2 a sup {
+    font-size: 52%;
+    padding: 1px;
+  }
+
+  .logo-search-section input {
+    padding: 1px 5px;
+    height: 23px;
+    border-radius: 35px 0 0 35px;
+  }
+
+  .logo-search-section button {
+    border-radius: 0 35px 35px 0;
+    padding: 1px 7px;
+    font-size: inherit;
+  }
+
+  .logo-search-section .cus-input-group input {
+    height: calc(1.5em + .75rem + -7px);
+  }
+}
+
+@media only screen and (max-width: 770px) {
+  .main-menu {
+    margin-top: 80px;
+  }
+  .fcontent {
+    margin-left: 0!important;
+  }
+
+  .logo-search-section input {
+    border-radius: 35px 0 0 35px;
+  }
+}
+
+
+@media only screen and (min-width: 600px) and (max-width: 959px) {
+
+  .logo-search-section .col-md-2 a sup {
+    font-size: 12px;
+    padding: 1px;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .header-wrapper .logo-search-section {
+    height: 85px;
+    padding: 5px 0;
+    z-index: 1000;
+  }
+
+  .logo-search-section .col-md-2 a sup {
+    font-size: 12px;
+    padding: 1px;
+  }
+
+  .logo-search-section .add-to-card-wrapper {
+    justify-content: flex-end;
+    height: 50px;
+  }
+
+  .logo-search-section .add-to-card-wrapper i {
+    font-size: 16px;
+  }
+
+  .logo-search-section .add-to-card-wrapper span {
+    font-size: 65%;
+  }
+
+  .logo-search-section .cus-input-group {
+    width: 100%;
+  }
+
+  .logo-search-section .cus-input-group .input-group-prepend button {
+    padding: 2px 4px;
+    font-size: 13px;
+  }
+
+  .logo-search-section .cus-input-group .dropdown-menu .dropdown-item {
+    font-size: 13px;
+    padding: 3px 15px;
+  }
+}
+
+@media only screen and (max-width: 374px) {
+  .logo-search-section .col-md-2 {
+    flex: 0 0 58.333333%;
+    max-width: 58.333333%;
+    top: -86px!important;
+  }
+}
+
+.dataTables_wrapper {
+  background: #fff;
+  border-radius: .375rem .375rem .375rem .375rem;
+  box-shadow: 0 2px 0 rgba(90, 97, 105, 0.11), 0 4px 8px rgba(90, 97, 105, 0.12), 0 10px 10px rgba(90, 97, 105, 0.06), 0 7px 70px rgba(90, 97, 105, 0.1);
+}
+
+.dataTables_filter, .dataTables_info, .dataTables_length, .dataTables_paginate {
+  width: 50%;
+  float: left;
+  font-size: 13px;
+  padding: 15px 20px;
+  color: #818ea3;
+}
+
+.dataTables_filter {
+  width: 50%;
+  float: left;
+  font-size: 13px;
+  padding: 15px 20px;
+  color: #818ea3;
+}
+
+.dataTables_info, .dataTables_length, .dataTables_paginate {
+  width: 50%;
+  float: left;
+  font-size: 13px;
+  padding: 15px 20px;
+  color: #818ea3;
+}
+
+//Vue data table css code
+.VueTables__search-field {
+  margin: 10px 0 0 10px;
+
+  label {
+    display: none;
+  }
+}
+
+.VueTables__limit-field {
+  margin: 10px 10px 0 0;
+
+  label {
+    display: none;
+  }
+}
+
+.dataTables_wrapper table.VueTables__table {
+  thead {
+    tr:last-child th {
+      padding-right: 1.7rem;
+    }
+
+    th {
+      &.sorting, &.sorting_asc, &.sorting_desc {
+        position: relative;
+      }
+
+      &:first-child {
+        border-left: none;
+      }
+
+      text-align: center;
+      background-color: #fbfbfb;
+      border: 1px solid #e1e5eb;
+      font-weight: 400;
+      padding: 0.75rem 1.0625rem;
+    }
+  }
+
+  td:focus, th:focus {
+    outline: 0 !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
