@@ -80,10 +80,20 @@
             <div class="col-6 col-md-2 col-sm-2 col-lg-2 col-xl-2">
               <div class="add-to-card-wrapper">
                 <a href="" title="Orders"><i class="fas fa-heart"></i> <sup class="badge badge-success">0</sup></a>
-                <a href="/" @click.prevent="cartOpen = true" title="Card"><i class="fas fa-shopping-cart"></i> <sup
-                    class="badge badge-success">{{ this.$store.getters.cartProductCount }}</sup></a>
+                <!-- <a href="/" @click.prevent="cartOpen = true" title="Card"><i class="fas fa-shopping-cart"></i> <sup
+                    class="badge badge-success">{{ this.$store.getters.cartProductCount }}</sup></a> -->
               </div>
             </div>
+            <section class="stickyHeader">
+              <div class="itemCount" >
+                <span style="font-size: 20px;padding-left: 19px;"><a href="/" @click.prevent="cartOpen = true" title="Card"><i class="fas fa-shopping-cart"></i> </a>
+                  </span>
+                  <p ><span >{{ this.$store.getters.cartProductCount }} ITEMS</span></p>
+
+                    </div>
+                    <div class="total" ><span >৳ {{totalValue}}</span>
+              </div>
+            </section>
           </div>
         </div>
       </div>
@@ -123,11 +133,57 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["generalSettings", "isBangla"])
+    ...mapGetters(["generalSettings", "isBangla"]),
+    totalValue: function () {
+      let amount = [];
+      amount = this.$store.getters.cartList.map((e) => {
+        return e.price * e.quantity;
+      })
+      return amount.reduce((a, b) => a + b, 0);
+    }
   },
+
 }
 </script>
 
 <style scoped>
-
+section.stickyHeader {
+    opacity: 1;
+    cursor: pointer;
+    position: fixed;
+    width: 65px;
+    height: 75px;
+    background: #F5FCEB;
+    right: 0;
+    top: calc(110px + 30%);
+    box-shadow: 0 0 16px -1px rgb(0 0 0 / 75%);
+    display: block;
+    transition: .1s ease-in-out;
+}
+.stickyHeader div.itemCount {
+    height: 50px;
+    background: #55584D;
+    width: 100%;
+}
+.stickyHeader div.total {
+    height: 20px;
+    width: 100%;
+    font-weight: 700;
+    text-align: center;
+    font-size: 13px;
+    padding-top: 5px;
+}
+.stickyHeader div.itemCount svg {
+    margin-top: 3px;
+    margin-left: 22px;
+}
+.stickyHeader div.itemCount p {
+    color: #1890ff;
+    margin-top: -2px;
+    margin-bottom: 0;
+    font-weight: 700;
+    font-size: 12px;
+    text-align: center;
+    padding-top: 0;
+}
 </style>
