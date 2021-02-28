@@ -79,18 +79,17 @@
             </div>
             <div class="col-6 col-md-2 col-sm-2 col-lg-2 col-xl-2">
               <div class="add-to-card-wrapper">
-                <a href="" title="Orders"><i class="fas fa-heart"></i> <sup class="badge badge-success">0</sup></a>
-                <!-- <a href="/" @click.prevent="cartOpen = true" title="Card"><i class="fas fa-shopping-cart"></i> <sup
-                    class="badge badge-success">{{ this.$store.getters.cartProductCount }}</sup></a> -->
               </div>
             </div>
             <section class="stickyHeader">
+              <a href="/" @click.prevent="cartOpen = true" title="Card">
               <div class="itemCount" >
-                <span style="font-size: 20px;padding-left: 19px;"><a href="/" @click.prevent="cartOpen = true" title="Card"><i class="fas fa-shopping-cart"></i> </a>
+                <span style="font-size: 20px;padding-left: 19px;color: white;">
+                  <i class="fas fa-shopping-cart"></i>
                   </span>
-                  <p ><span >{{ this.$store.getters.cartProductCount }} ITEMS</span></p>
-
-                    </div>
+                  <p style="color: white;"><span >{{ this.$store.getters.cartProductCount }} ITEMS</span></p>
+              </div>
+              </a>
                     <div class="total" ><span >৳ {{totalValue}}</span>
               </div>
             </section>
@@ -162,7 +161,7 @@ section.stickyHeader {
 }
 .stickyHeader div.itemCount {
     height: 50px;
-    background: #55584D;
+    background: #c01d2e;
     width: 100%;
 }
 .stickyHeader div.total {

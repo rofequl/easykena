@@ -161,6 +161,13 @@ function configRoutes() {
                     path: "/user-address/add",
                     name: "user-address-add",
                     component: () => import("@/pages/frontend/account/AddAddress")
+                },
+                {
+                    meta: {title: 'Checkout'},
+                    path: "/checkout",
+                    name: "checkout",
+                    // beforeEnter: isAdminLoggedIn,
+                    component: () => import("@/pages/frontend/Checkout")
                 }
             ]
         },
@@ -185,4 +192,3 @@ function configRoutes() {
         },
     ]
 }
-

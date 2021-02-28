@@ -48,26 +48,40 @@
         }"
     >
       <a-button-group style="width: 100%">
-        <a-button class="bg-danger text-white" type="primary" style="width: 70%"> Checkout</a-button>
+        <a-button class="bg-danger text-white" type="primary" style="width: 70%" @click="checkout();" v-if="this.$store.getters.cartProductCount"> Checkout</a-button>
         <a-button class="bg-success text-white" disabled style="width: 30%">৳ {{totalValue}}</a-button>
       </a-button-group>
+        <Login :loginOpen="loginModel" @closeModel="loginModel = false"/>
     </div>
   </a-drawer>
+
 </template>
 
 <script>
 import {mapGetters} from "vuex";
+import Login from "@/components/Form/Login";
 
 export default {
   props: ['cartOpen'],
   name: "Cart",
+  components: {Login},
   data() {
     return {
       visible: false,
       value: 3,
+      loginModel: false,
     };
   },
-  methods: {},
+  methods: {
+    checkout(){
+       if(this.$store.getters.isAuthenticated){
+         this.$router.push('/checkout').catch(err => {});
+         this.$emit('closeDrawer');
+       }else{
+         this.loginModel = true
+       }
+    }
+  },
   computed: {
     ...mapGetters(["cartList"]),
     totalValue: function () {
