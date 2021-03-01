@@ -81,7 +81,7 @@
               <div class="add-to-card-wrapper">
               </div>
             </div>
-            <section class="stickyHeader">
+            <section class="stickyHeader" v-if="this.$route.name != 'checkout'">
               <a href="/" @click.prevent="cartOpen = true" title="Card">
               <div class="itemCount" >
                 <span style="font-size: 20px;padding-left: 19px;color: white;">
