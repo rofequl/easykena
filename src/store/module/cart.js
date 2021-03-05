@@ -22,12 +22,19 @@ export default {
         CART_PRODUCT_LIST({commit}) {
             commit('LOAD_CART_PRODUCT');
         },
+        EMPTY_PRODUCT_CART_LIST({commit}){
+          commit('EMPTY_PRODUCT_CART');
+        },
     },
     mutations: {
         SET_PRODUCT_CART: (state, data) => {
             let index = state.cart.findIndex(value => value.id === data.id);
             if (index > -1) state.cart.splice(index, 1);
             state.cart.push(data);
+        },
+        EMPTY_PRODUCT_CART: (state) => {
+            state.cart.splice(0,state.cart.length);
+            CartService.saveCartProduct(state.cart);
         },
         STORE_CART_PRODUCT: (state) => {
             CartService.destroyCartProduct();

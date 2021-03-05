@@ -14,6 +14,9 @@ import region from "@/store/module/region";
 import city from "@/store/module/city";
 import area from "@/store/module/area";
 import address from "@/store/module/address";
+import order from "@/store/module/order";
+import coupon from "@/store/module/coupon";
+
 
 Vue.use(Vuex)
 
@@ -32,7 +35,9 @@ export default new Vuex.Store({
         region,
         city,
         area,
-        address
+        address,
+        order,
+        coupon
     },
     state: {
         sidebarShow: 'responsive',

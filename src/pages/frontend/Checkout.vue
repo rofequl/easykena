@@ -2,8 +2,10 @@
    <div class="row " style="padding: 20px 20px 20px 20px;">
       <div class="col-xl-8">
          <div class="mb-4">
+            <h4 v-if="this.cartList.length > 0">Order Items</h4>
             <table style="font-size: 15px;width: 100%;">
                <tr class="border-bottom" v-for="(cart, k) in cartList" :key="k">
+                 <td style="width: 30px">{{k+1}}.</td>
                   <td style="width: 30px"><i class="fas fa-trash mr-2" style="cursor: pointer"
                      @click="$store.dispatch('Remove_CART',cart)"></i></td>
                   <td style="width: 55px">
@@ -22,9 +24,18 @@
                   </td>
                </tr>
             </table>
+            <h3 v-if="this.cartList.length == 0" style="font-size: 100px;text-align: center;color:#b3c4d4;margin-bottom: 0 !important;">
+              <i class="fas fa-shopping-cart"></i>
+            </h3>
+            <h1 v-if="this.cartList.length == 0" style="font-size: 20px;text-align: center;"><span > </span>
+              <span>Your shopping cart is empty, Please add some products before you checkout.</span>
+                <div style="padding-top: 15px;">
+                 <a-button class="btn active btn-outline-success btn-sm" style="background: #f05931;border-color: #f05931;width: 25%;" type="primary" @click="$router.push('/')" v-if="this.cartList.length == 0">Start Shopping Now</a-button>
+               </div>
+            </h1>
          </div>
          <a-button-group style="width: 100%">
-            <a-button class="btn active btn-outline-success btn-sm" style="background: #f05931;border-color: #f05931;width: 15%;" type="primary" @click="$router.push('/checkout')">Place Order</a-button>
+            <a-button class="btn active btn-outline-success btn-sm" style="background: #f05931;border-color: #f05931;width: 15%;" type="primary" @click="submitOrder(totalValue);" v-if="this.cartList.length > 0">Place Order</a-button>
          </a-button-group>
       </div>
       <div class="col-xl-4 ml-lg-auto">
@@ -36,11 +47,9 @@
                         <span>Shipping Address</span>
                      </h4>
                   </div>
-
                </div>
             </div>
             <div class="card-body">
-
                <table style="font-size: 12px;width: 100%;">
                   <tr >
                      <th >
@@ -92,15 +101,21 @@
                      </tr>
                      <tr class="cart-subtotal" >
                         <td  style="padding-top: 15px;padding-bottom: 15px;">
-                           <input type="text" class="form-control" style="height: 30px;" placeholder="Enter Voucher Code"name="coupon"></input>
+                           <input type="text" class="form-control" style="height: 30px;" v-model="couponCode"placeholder="Enter Voucher Code"name="coupon"></input>
                         </td>
                         <td class="text-right" style="padding-top: 15px;padding-bottom: 15px;">
                            <span >
                            <a id="sign-in" class="btn active btn-outline-success btn-sm"
-                              style="font-size: 13px;" >
+                              style="font-size: 13px;" @click="applyCoupon(couponCode)" >
                            Apply
                            </a>
                            </span>
+                        </td>
+                     </tr>
+                     <tr class="cart-total">
+                        <th><span class="strong-600">Discount</span></th>
+                        <td class="text-right">
+                           <strong><span>৳ {{discount_amount}}</span></strong>
                         </td>
                      </tr>
                      <tr class="cart-total">
@@ -292,6 +307,8 @@
          emailEditOpen:false,
          isLoginError: false,
          isLoginErrorMessage: '',
+         couponCode:'',
+         discount_amount:0,
          form: new Form({
            id: '',
            full_name: '',
@@ -379,19 +396,28 @@
              return e;
            }
          })
-           console.log(shippingAddress);
            if (shippingAddress.length>0) {
              ApiService.put("address_shipping/"+shippingAddress[0].id, shippingAddress[0])
                  .then(({data}) => {
                    this.$store.commit('ADDRESS_MODIFY', data);
                    this.addressEditOpen=false;
+                   this.$notification['success']({
+                     message: 'Congratulations',
+                     description: 'Shipping Address Added Successfully.',
+                     style: {marginTop: '41px'},
+                   });
                  })
                  .catch(error => {
+                   this.$notification['error']({
+                     message: 'Warning',
+                     description: ((err.response || {}).data || {}).message || 'Something Wrong',
+                     style: {marginTop: '41px'},
+                     duration: 4
+                   })
                  })
            } else {
              return false;
            }
-
        },
         submitForm() {
           if(!this.form.id){
@@ -401,8 +427,19 @@
                     .then(({data}) => {
                       this.$store.commit('ADDRESS_ADD', data);
                       this.addressEditOpen=false;
+                      this.$notification['success']({
+                        message: 'Congratulations',
+                        description: 'Address Added Successfully.',
+                        style: {marginTop: '41px'},
+                      });
                     })
                     .catch(error => {
+                      this.$notification['error']({
+                        message: 'Warning',
+                        description: ((err.response || {}).data || {}).message || 'Something Wrong',
+                        style: {marginTop: '41px'},
+                        duration: 4
+                      })
                     })
               } else {
                 return false;
@@ -410,22 +447,69 @@
             });
           }else{
             this.$refs.ruleForm.validate(valid => {
-
               if (valid) {
                 ApiService.put("address/"+this.form.id, this.form)
                     .then(({data}) => {
                       this.$store.commit('ADDRESS_MODIFY', data);
                       this.addressEditOpen=false;
+                      this.$notification['success']({
+                        message: 'Congratulations',
+                        description: 'Address Edited Successfully.',
+                        style: {marginTop: '41px'},
+                      });
                     })
                     .catch(error => {
+                      this.$notification['error']({
+                        message: 'Warning',
+                        description: ((err.response || {}).data || {}).message || 'Something Wrong',
+                        style: {marginTop: '41px'},
+                        duration: 4
+                      })
                     })
               } else {
                 return false;
               }
             });
           }
-
         },
+        submitOrder(total){
+           var order = {'shipping_address_id':this.addresses[0].id,'items':this.cartList,'total':this.totalValue,'date':'','discount_amount':this.discount_amount};
+          ApiService.post("orders", order)
+              .then(({data}) => {
+                this.$store.commit('EMPTY_PRODUCT_CART');
+                this.$store.commit('ORDER_LIST_USER_ADD',data);
+                this.$notification['success']({
+                  message: 'Congratulations',
+                  description: 'Order Placed Successfully.',
+                  style: {marginTop: '41px'},
+                });
+              })
+              .catch(error => {
+                this.$notification['error']({
+                  message: 'Warning',
+                  description: ((err.response || {}).data || {}).message || 'Something Wrong',
+                  style: {marginTop: '41px'},
+                  duration: 4
+                })
+              })
+        },
+        applyCoupon(couponCode){
+
+          ApiService.get('coupon_code_get/'+couponCode)
+              .then(({data}) => {
+                if(data.discount_amount < totalValue){
+                  this.discount_amount = data.discount_amount;
+                }
+              })
+              .catch(error => {
+                this.$notification['error']({
+                  message: 'Warning',
+                  description: ((err.response || {}).data || {}).message || 'Something Wrong',
+                  style: {marginTop: '41px'},
+                  duration: 4
+                })
+              })
+        }
      },
      created() {
        if (!this.addressList.length > 0) this.$store.dispatch('ADDRESS_LIST');
@@ -440,7 +524,7 @@
          amount = this.cartList.map((e) => {
            return e.price * e.quantity;
          })
-         return amount.reduce((a, b) => a + b, 0);
+         return amount.reduce((a, b) => a + b, 0)-this.discount_amount;
        },
        user() {
          return this.currentUser;
@@ -452,13 +536,6 @@
              return e;
            }
          })
-
-         // if(adrs.length){
-         //   this.form =adrs[0];
-         //   this.cities=this.cityById(adrs[0].region_id);
-         //   this.areas = this.areaById(adrs[0].city_id);
-         // }
-
        return adrs;
      },
      addressesCurrentUser() {
