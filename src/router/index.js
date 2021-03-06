@@ -97,6 +97,18 @@ function configRoutes() {
                     component: () => import("@/pages/admin/shipping/Area")
                 },
                 {
+                    meta: {title: 'Orders List'},
+                    path: "/admin/orders/orders-list",
+                    name: "Orders List",
+                    component: () => import("@/pages/admin/orders/OrdersList")
+                },
+                {
+                    meta: {title: 'Coupons List'},
+                    path: "/admin/coupons/coupons-list",
+                    name: "Coupons List",
+                    component: () => import("@/pages/admin/coupons/CouponsList")
+                },
+                {
                     meta: {title: 'General Settings'},
                     path: "/admin/setup/general-setting",
                     name: "general-setting",
@@ -143,6 +155,12 @@ function configRoutes() {
                     path: "/user-profile",
                     name: "user-profile",
                     component: () => import("@/pages/frontend/Account")
+                },
+                {
+                    meta: {title: 'My Orders'},
+                    path: "/user-orders",
+                    name: "user-orders",
+                    component: () => import("@/pages/frontend/OrdersList")
                 },
                 {
                     meta: {title: 'Edit Profile'},

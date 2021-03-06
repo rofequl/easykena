@@ -62,6 +62,32 @@ export default [
             },
             {
                 _name: 'CSidebarNavDropdown',
+                name: 'Orders',
+                route: '/admin/orders',
+                icon: 'cil-cart',
+                items: [
+                    {
+                        name: 'Orders List',
+                        to: '/admin/orders/orders-list'
+                    },
+
+                ]
+            },
+            {
+                _name: 'CSidebarNavDropdown',
+                name: 'Coupons',
+                route: '/admin/coupons',
+                icon: 'cil-cart',
+                items: [
+                    {
+                        name: 'Coupons List',
+                        to: '/admin/coupons/coupons-list'
+                    },
+
+                ]
+            },
+            {
+                _name: 'CSidebarNavDropdown',
                 name: 'Setup & Configurations',
                 route: '/admin/setup',
                 icon: 'cil-screen-desktop',
