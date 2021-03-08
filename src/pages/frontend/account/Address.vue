@@ -9,7 +9,7 @@
       <div class="row mb-5">
         <div class="col-12">
           <a-card style="width: 100%">
-            <a-table :columns="columns" :data-source="addressList" :pagination="false" rowKey="id">
+            <a-table :columns="columns" :data-source="addressesCurrentUser" :pagination="false" rowKey="id">
               <span slot="address" slot-scope="text, record">
                 <a-tag v-if="record.address_type === 0" color="#2db7f5">HOME</a-tag>
                 <a-tag v-else color="#108ee9">OFFICE</a-tag>{{ text }}
@@ -92,7 +92,16 @@ export default {
     if (!this.addressList.length > 0) this.$store.dispatch('ADDRESS_LIST');
   },
   computed: {
-    ...mapGetters(["addressList"])
+    ...mapGetters(["addressList","currentUser"]),
+    addressesCurrentUser() {
+      let adrs=[];
+      adrs=this.addressList.filter((e)=>{
+        if(e.user_id == this.currentUser.id ){
+          return e;
+        }
+      })
+    return adrs;
+  }
   }
 }
 </script>

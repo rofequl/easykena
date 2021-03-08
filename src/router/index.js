@@ -9,7 +9,11 @@ const isAdminLoggedIn = (to, from, next) => {
     if (store.getters.isAuthenticated) store.getters.isAdmin ? next() : next({name: 'home'});
     else next({name: 'admin-login'})
 }
-
+const isUserLoggedIn =(to,from,next)=>{
+  if (store.getters.isAuthenticated)
+    next();
+  else next({name: 'home'})
+}
 const isAdminLoggedOut = (to, from, next) => {
     if (store.getters.isAuthenticated) store.getters.isAdmin ? next({name: 'dashboard'}) : next({name: 'home'});
     else next()
@@ -184,7 +188,7 @@ function configRoutes() {
                     meta: {title: 'Checkout'},
                     path: "/checkout",
                     name: "checkout",
-                    // beforeEnter: isAdminLoggedIn,
+                    beforeEnter: isUserLoggedIn,
                     component: () => import("@/pages/frontend/Checkout")
                 }
             ]

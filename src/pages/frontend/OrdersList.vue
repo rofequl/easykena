@@ -75,8 +75,8 @@
                      </td>
                      <td class="text-right">
                         <span class="badge badge-info" v-if="orderDetails.status == 0">Pending</span>
-                        <span class="badge badge-info" v-if="orderDetails.status == 1">Delivered</span>
-                        <span class="badge badge-info" style="background-color: #f5222d;" v-if="orderDetails.status == 2">Canceled</span>
+                        <span class="badge badge-info" v-if="orderDetails.status == 1" style="background-color: #28a745 !important;">Delivered</span>
+                        <span class="badge badge-info" style="background-color: red;" v-if="orderDetails.status == 2">Canceled</span>
                      </td>
                   </tr>
                   <tr>

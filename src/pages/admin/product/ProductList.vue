@@ -15,7 +15,6 @@
       </div>
     </div>
     <!-- End Page Header -->
-
     <!-- Datatable -->
     <div id="people" class="dataTables_wrapper no-footer my-5">
       <v-client-table :data="productList" :columns="columns" :options="options" class="text-center">
@@ -25,9 +24,13 @@
         <div slot="thumb_image" slot-scope="props">
           <img :src="showImage(props.row.thumb_image)" class="border" width="80px">
         </div>
+        <div slot="tags" slot-scope="props" >
+          <div v-for='(tag, index) in props.row.tags' :key='tag' class='ant-tag ant-tag-has-color' style="background: #40a9ff;">
+            {{ tag }}
+          </div>
+        </div>
         <div slot="action" slot-scope="props">
           <a-button-group>
-<!--            <a-button @click="$refs.child.modal(props.row)" icon="edit"/>-->
             <a-popconfirm placement="topRight"
                           title="Are you sure delete this product?"
                           ok-text="Yes"
@@ -40,10 +43,8 @@
       </v-client-table>
     </div>
     <!-- End Datatable -->
-
   </div>
 </template>
-
 <script>
 import {mapGetters} from "vuex";
 import ApiService from "@/core/services/api.service";
@@ -77,18 +78,20 @@ export default {
   computed: {
     ...mapGetters(["isBangla", "productList"]),
     columns() {
-      return this.isBangla ? ['serial', 'thumb_image', 'name', 'quantity', 'price', 'action'] : ['serial', 'thumb_image', 'name', 'quantity', 'price', 'action'];
+      return this.isBangla ? ['serial', 'thumb_image', 'name','tags', 'quantity', 'price', 'action'] : ['serial', 'thumb_image', 'name','tags', 'quantity', 'price', 'action'];
     },
     options() {
       return {
         headings: {
           serial: '#',
           name: 'Product Name',
+          tags:'Tags',
           thumb_image: 'Thumbnail Image',
         },
         sortable: ['name'],
-        filterable: ['name']
+        filterable: ['name','tags']
       }
+
     }
   }
 }

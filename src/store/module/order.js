@@ -47,6 +47,9 @@ export default {
         ORDER_MODIFY: (state, data) => {
             Object.assign(state.orderList.find(element => element.id === data.id), data);
         },
+        ORDER_MODIFY_USER: (state, data) => {
+            Object.assign(state.orderListUser.find(element => element.id === data.id), data);
+        },
         ORDER_ADD: (state, data) => {
             state.orderList.unshift(data);
         },

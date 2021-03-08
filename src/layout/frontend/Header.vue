@@ -32,7 +32,7 @@
                       </a-menu-item>
                       <a-menu-item v-if="!$store.getters.isAdmin" @click="$router.push('/user-orders')">
                     <span>
-                      <a-icon type="cart"/>
+                      <i class="fas fa-shopping-cart"></i>
                       My Orders</span>
                       </a-menu-item>
                       <a-menu-item key="2" @click="$store.dispatch('LOGOUT')">
@@ -86,7 +86,7 @@
               <div class="add-to-card-wrapper">
               </div>
             </div>
-            <section class="stickyHeader" v-if="this.$route.name != 'checkout' && this.$route.name != 'user-orders' && this.$route.name != 'user-profile'">
+            <section class="stickyHeader" v-if="this.$route.name != 'checkout' && this.$route.name != 'user-orders' && this.$route.name != 'user-address-manage' && this.$route.name != 'user-address-add' && this.$route.name != 'user-profile-edit'&& this.$route.name != 'user-profile'">
               <a href="/" @click.prevent="cartOpen = true" title="Card">
               <div class="itemCount" >
                 <span style="font-size: 20px;padding-left: 19px;color: white;">

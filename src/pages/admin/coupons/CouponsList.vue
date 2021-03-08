@@ -156,9 +156,10 @@ export default {
     submitFormCoupon() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          this.visible = false;
+
           this.form.post('coupons')
               .then(({data}) => {
+                this.visible = false;
                 this.$store.commit('COUPON_ADD', data);
                 this.$refs.ruleForm.resetFields();
                 this.$notification['success']({
@@ -169,6 +170,17 @@ export default {
                 });
               })
               .catch(err => {
+                // console.log(this.$refs.ruleForm);
+                // this.form.push(err.response.data);
+                if (err.response.data) {
+                  this.$message.config({
+                    top: '65px',
+                    duration: 4,
+                    maxCount: 3,
+                  });
+                  this.$message.warning('This Coupon Code Already Exists');
+                  return false;
+                }
                 this.$notification['error']({
                   message: 'Warning',
                   description: ((err.response || {}).data || {}).message || 'Something Wrong',
@@ -184,9 +196,10 @@ export default {
     updateFormCoupon() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          this.visible = false;
+
           this.form.put('coupons/' + this.form.id)
               .then(({data}) => {
+                this.visible = false;
                 this.$store.commit('COUPON_MODIFY', data);
                 this.$refs.ruleForm.resetFields();
                 this.$notification['success']({
@@ -197,6 +210,15 @@ export default {
                 });
               })
               .catch(err => {
+                if (err.response.data.coupon_code) {
+                  this.$message.config({
+                    top: '65px',
+                    duration: 4,
+                    maxCount: 3,
+                  });
+                  this.$message.warning('This Coupon Code Already Exists');
+                  return false;
+                }
                 this.$notification['error']({
                   message: 'Warning',
                   description: ((err.response || {}).data || {}).message || 'Something Wrong',
@@ -229,8 +251,8 @@ export default {
           date_from: 'From Date',
           date_to: 'To Date',
         },
-        sortable: ['name'],
-        filterable: ['name']
+        sortable: ['coupon_code'],
+        filterable: ['coupon_code']
       }
     }
   }

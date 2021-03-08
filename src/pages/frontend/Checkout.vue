@@ -35,7 +35,8 @@
             </h1>
          </div>
          <a-button-group style="width: 100%">
-            <a-button class="btn active btn-outline-success btn-sm" style="background: #f05931;border-color: #f05931;width: 15%;" type="primary" @click="submitOrder(totalValue);" v-if="this.cartList.length > 0">Place Order</a-button>
+            <a-button class="btn active btn-outline-success btn-sm" :loading="busy"
+                      :disabled="busy" style="background: #f05931;border-color: #f05931;width: 15%;" type="primary" @click="submitOrder(totalValue);" v-if="this.cartList.length > 0">Place Order</a-button>
          </a-button-group>
       </div>
       <div class="col-xl-4 ml-lg-auto">
@@ -106,7 +107,8 @@
                         <td class="text-right" style="padding-top: 15px;padding-bottom: 15px;">
                            <span >
                            <a id="sign-in" class="btn active btn-outline-success btn-sm"
-                              style="font-size: 13px;" @click="applyCoupon(couponCode)" >
+                              style="font-size: 13px;" :loading="busy"
+                                 :disabled="busy" @click="applyCoupon(couponCode)" >
                            Apply
                            </a>
                            </span>
@@ -275,8 +277,8 @@
                      <a-button @click="closeModal();" size="large" class="mr-3 px-5">
                         Cancel
                      </a-button>
-                     <a-button size="large" type="primary" class="px-5" :loading="form.busy"
-                        :disabled="form.busy"  html-type="submit">
+                     <a-button size="large" type="primary" class="px-5" :loading="busy"
+                        :disabled="busy"  html-type="submit">
                         Save
                      </a-button>
                   </a-form-model-item>
@@ -322,6 +324,7 @@
          }),
          cities: [],
          areas: [],
+         busy:false,
          rules: {
            full_name: [
              {required: true, message: 'You can\'t leave this empty.', trigger: 'blur'},
@@ -397,8 +400,10 @@
            }
          })
            if (shippingAddress.length>0) {
+             this.busy=true;
              ApiService.put("address_shipping/"+shippingAddress[0].id, shippingAddress[0])
                  .then(({data}) => {
+                   this.busy=false;
                    this.$store.commit('ADDRESS_MODIFY', data);
                    this.addressEditOpen=false;
                    this.$notification['success']({
@@ -408,6 +413,7 @@
                    });
                  })
                  .catch(error => {
+                   this.busy=false;
                    this.$notification['error']({
                      message: 'Warning',
                      description: ((err.response || {}).data || {}).message || 'Something Wrong',
@@ -420,11 +426,13 @@
            }
        },
         submitForm() {
+          this.busy=true;
           if(!this.form.id){
             this.$refs.ruleForm.validate(valid => {
               if (valid) {
                 ApiService.post("address", this.form)
                     .then(({data}) => {
+                      this.busy=false;
                       this.$store.commit('ADDRESS_ADD', data);
                       this.addressEditOpen=false;
                       this.$notification['success']({
@@ -434,6 +442,7 @@
                       });
                     })
                     .catch(error => {
+                      this.busy=false;
                       this.$notification['error']({
                         message: 'Warning',
                         description: ((err.response || {}).data || {}).message || 'Something Wrong',
@@ -442,14 +451,17 @@
                       })
                     })
               } else {
+                this.busy=false;
                 return false;
               }
             });
           }else{
+            this.busy=true;
             this.$refs.ruleForm.validate(valid => {
               if (valid) {
                 ApiService.put("address/"+this.form.id, this.form)
                     .then(({data}) => {
+                      this.busy=false;
                       this.$store.commit('ADDRESS_MODIFY', data);
                       this.addressEditOpen=false;
                       this.$notification['success']({
@@ -459,6 +471,7 @@
                       });
                     })
                     .catch(error => {
+                      this.busy=false;
                       this.$notification['error']({
                         message: 'Warning',
                         description: ((err.response || {}).data || {}).message || 'Something Wrong',
@@ -467,17 +480,20 @@
                       })
                     })
               } else {
+                this.busy=false;
                 return false;
               }
             });
           }
         },
         submitOrder(total){
+          this.busy=true;
            var order = {'shipping_address_id':this.addresses[0].id,'items':this.cartList,'total':this.totalValue,'date':'','discount_amount':this.discount_amount};
           ApiService.post("orders", order)
               .then(({data}) => {
+                this.busy=false;
                 this.$store.commit('EMPTY_PRODUCT_CART');
-                this.$store.commit('ORDER_LIST_USER_ADD',data);
+                this.$store.commit('ORDER_ADD_USER',data);
                 this.$notification['success']({
                   message: 'Congratulations',
                   description: 'Order Placed Successfully.',
@@ -485,6 +501,7 @@
                 });
               })
               .catch(error => {
+                this.busy=false;
                 this.$notification['error']({
                   message: 'Warning',
                   description: ((err.response || {}).data || {}).message || 'Something Wrong',
@@ -494,14 +511,11 @@
               })
         },
         applyCoupon(couponCode){
-
           ApiService.get('coupon_code_get/'+couponCode)
               .then(({data}) => {
-                if(data.discount_amount < totalValue){
                   this.discount_amount = data.discount_amount;
-                }
               })
-              .catch(error => {
+              .catch(err => {
                 this.$notification['error']({
                   message: 'Warning',
                   description: ((err.response || {}).data || {}).message || 'Something Wrong',

@@ -76,6 +76,22 @@
                     v-model="form.unit" placeholder="Unit (e.g. KG, Pc etc)"
                     @blur="() => {$refs.unit.onFieldBlur();}"/>
               </a-form-model-item>
+
+              <div data-v-246558b6="" class="ant-row ant-form-item">
+                <div class="ant-col ant-col-sm-7 ant-col-lg-7 ant-form-item-label">
+                  <label title="Tags: " class="">Tags</label>
+                </div>
+                <div class="ant-col ant-col-sm-17 ant-col-lg-13 ant-form-item-control-wrapper">
+                  <div class="ant-form-item-control"><span class="ant-form-item-children">
+                    <div v-for='(tag, index) in form.tags' :key='tag' class='tag-input__tag'>
+                      <span @click="removeTag(index)">x</span>
+                      {{ tag }}
+                    </div>
+                    <input type='text' placeholder="Enter a Tag" class='ant-input' @keydown.enter='addTag'
+                      @keydown.188='addTag'/></span>
+                  </div>
+                </div>
+              </div>
             </CCardBody>
           </CCard>
           <CCard>
@@ -146,6 +162,7 @@ export default {
         description: '',
         quantity: 1,
         price: 1,
+        tags:[],
       }),
       subcategory: [],
       subsubcategory: [],
@@ -250,6 +267,17 @@ export default {
         }
       });
     },
+    addTag (event) {
+      event.preventDefault()
+      var val = event.target.value.trim()
+      if (val.length > 0) {
+        this.form.tags.push(val)
+        event.target.value = ''
+      }
+    },
+    removeTag (index) {
+      this.form.tags.splice(index, 1)
+      }
   },
   created() {
     if (!this.categoryList.length > 0) this.$store.dispatch('CATEGORY_LIST');
@@ -274,5 +302,37 @@ export default {
 .cat-select-design {
   border: 1px solid #9199a7 !important;
   font-size: 13px;
+}
+.tag-input {
+  width: 100%;
+  border: 1px solid #eee;
+  font-size: 0.9em;
+  height: 50px;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+.tag-input__tag {
+  height: 30px;
+  float: left;
+  margin-right: 10px;
+  background-color: #eee;
+  margin-top: 10px;
+  line-height: 30px;
+  padding: 0 5px;
+  border-radius: 5px;
+}
+
+.tag-input__tag > span {
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.tag-input__text {
+  border: none;
+  outline: none;
+  font-size: 0.9em;
+  line-height: 50px;
+  background: none;
 }
 </style>

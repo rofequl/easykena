@@ -27,8 +27,8 @@
         </div>
         <div slot="status" slot-scope="props">
           <a-tag v-if="props.row.status == 0" color="#2db7f5">PENDING</a-tag>
-          <a-tag v-if="props.row.status == 1" color="#108ee9">DELIVERED</a-tag>
-          <a-tag v-if="props.row.status == 2" color="#108ee9">CANCELED</a-tag>
+          <a-tag v-if="props.row.status == 1" color="green">DELIVERED</a-tag>
+          <a-tag v-if="props.row.status == 2" color="red">CANCELED</a-tag>
         </div>
         <div slot="action" slot-scope="props">
           <a-button-group>
@@ -250,6 +250,7 @@ export default {
       ApiService.put('orders_status_change/' + id,{'status':status})
           .then((data) => {
             this.$store.commit('ORDER_MODIFY', data.data);
+            // this.$store.commit('ORDER_MODIFY_USER', data.data);
             this.$notification['success']({
               message: 'Congratulations',
               description: 'Order Status Changed successfully.',
@@ -327,8 +328,8 @@ export default {
           full_name: 'Client',
           status:'Status',
         },
-        sortable: ['name'],
-        filterable: ['name']
+        sortable: ['full_name','status','email','phone_number'],
+        filterable: ['full_name','status','email','phone_number']
       }
     }
   }
