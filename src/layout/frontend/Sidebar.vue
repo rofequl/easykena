@@ -1,7 +1,7 @@
 <template>
 
   <a-layout-sider width="300"
-                  :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, zIndex: 2}"
+                  :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, zIndex: 2,background:'white !important',}"
                   :class="{top:$store.state.sidebarTopSize,customStyle:$store.state.sidebarMinimizeFront}"
                   class="border-right">
     <div class="all-category">
@@ -117,6 +117,9 @@ export default {
   .customStyle {
     width: 0 !important;
     min-width: 0 !important;
+  }
+  .ant-layout-sider {
+   background:white !important;
   }
 }
 </style>

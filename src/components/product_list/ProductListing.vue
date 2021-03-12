@@ -4,10 +4,10 @@
       <a-col :xs="{ span: 24}" :sm="{ span: 12}" :md="{ span: 8}" :lg="{ span: 6}" class="mb-4"
              v-for="(data, k) in product" :key="k">
         <a-card hoverable :bodyStyle="{padding:'4px'}" :style="{borderColor:'#d6cccc'}">
-          <div class="card-header p-0">
+          <div class="card-header p-0" @click="showModal(data);">
             <img :src="showImage(data.thumb_image)" class="w-100" height="180px" alt="">
           </div>
-          <p class="name sammy-nowrap-2 mb-1">{{ data.name }}</p>
+          <p class="name sammy-nowrap-2 mb-1" @click="showModal(data);">{{ data.name }}</p>
           <p class="mb-2 font-weight-bold">৳ {{ data.price }}</p>
           <p class="mb-0" v-if="cartProductById(data.id)">
             <!--            <button style="background-color: #d4e0de; color: #f05931" :disabled="true"> {{cartProductById(data.id).quantity}} add in Cart</button>-->
@@ -23,6 +23,42 @@
         </a-card>
       </a-col>
     </a-row>
+    <a-modal centered :width="750" :visible="productDetails" :footer="null"
+       @cancel="closeModal();">
+       <div class="row" >
+         <div class="col-md-6">
+
+             <div class="card-header p-0" >
+               <img :src="showImage(productDetailsData.thumb_image)" class="w-100" height="200px" alt="">
+             </div>
+         </div>
+         <div class="col-md-6">
+
+             <p class="name sammy-nowrap-2 mb-1" >
+               <h3>{{ productDetailsData.name }}</h3>
+               <span >each</span>
+             </p>
+             <p class="mb-2 font-weight-bold">৳ {{ productDetailsData.price }}</p>
+             <p class="mb-0" v-if="cartProductById(productDetailsData.id)">
+               <!--            <button style="background-color: #d4e0de; color: #f05931" :disabled="true"> {{cartProductById(data.id).quantity}} add in Cart</button>-->
+
+               <b-form-spinbutton style="width:95%;" class="card-spin-button" :formatter-fn="dayFormatter"
+                                  v-model="cartProductById(productDetailsData.id).quantity" min="1"
+                                  :max="cartProductById(productDetailsData.id).max_qty"></b-form-spinbutton><br>
+              <a-button class="bg-danger text-white" type="primary" style="width: 92%" @click="checkout();" v-if="this.$store.getters.cartProductCount"> Checkout</a-button>
+
+             </p>
+
+             <p class="mb-0" v-else>
+               <button class="cart-button" @click="addToCart(productDetailsData)"><i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+               </button>
+             </p>
+         </div>
+
+       </div>
+       <p><h4>Product Description:</h4></p>
+      <p v-html="productDetailsData.description"></p>
+    </a-modal>
   </div>
 </template>
 
@@ -32,6 +68,20 @@ import {mapGetters} from "vuex";
 export default {
   props: ['product'],
   name: "ProductListing",
+  data() {
+    return {
+      productDetails:false,
+      productDetailsData:{
+        id:'',
+        slug:'',
+        name:'',
+        quantity:'',
+        max_qty:'',
+        thumb_image:'',
+        price:'',
+      },
+    }
+  },
   methods: {
     addToCart(product) {
       let data = {};
@@ -46,6 +96,20 @@ export default {
     },
     dayFormatter(value) {
       return value + ' add in Cart';
+    },
+    showModal:function(data){
+      this.productDetails=true;
+      this.productDetailsData=data;
+    },
+    closeModal:function(){
+      this.productDetails=false;
+    },
+    checkout(){
+       if(this.$store.getters.isAuthenticated){
+         this.$router.push('/checkout').catch(err => {});
+       }else{
+         this.loginModel = true
+       }
     }
   },
   computed: {
