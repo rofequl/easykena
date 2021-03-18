@@ -4,7 +4,7 @@
       <div class="row">
         <h2 class="page-title">Featured Products</h2>
       </div>
-      <ProductListing :product="productList"/>
+      <ProductListing :product="productListFeatured"/>
     </div>
   </div>
 </template>
@@ -16,10 +16,10 @@ import ProductListing from "@/components/product_list/ProductListing";
 export default {
   name: "Featured",
   created() {
-    if (!this.productList.length > 0) this.$store.dispatch('PRODUCT_LIST');
+    if (!this.productListFeatured.length > 0) this.$store.dispatch('PRODUCT_LIST_FEATURED');
   },
   computed: {
-    ...mapGetters(["isBangla", "productList"]),
+    ...mapGetters(["isBangla", "productListFeatured"]),
   },
   components: {ProductListing},
 }

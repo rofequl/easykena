@@ -29,6 +29,10 @@
             {{ tag }}
           </div>
         </div>
+        <div slot="featured" slot-scope="props">
+          <p v-if="props.row.featured == 1">Yes</p>
+          <p v-else>No</p>
+        </div>
         <div slot="action" slot-scope="props">
           <a-button-group>
             <a-popconfirm placement="topRight"
@@ -78,7 +82,7 @@ export default {
   computed: {
     ...mapGetters(["isBangla", "productList"]),
     columns() {
-      return this.isBangla ? ['serial', 'thumb_image', 'name','tags', 'quantity', 'price', 'action'] : ['serial', 'thumb_image', 'name','tags', 'quantity', 'price', 'action'];
+      return this.isBangla ? ['serial', 'thumb_image', 'name','tags', 'quantity', 'price','featured', 'action'] : ['serial', 'thumb_image', 'name','tags', 'quantity', 'price','featured', 'action'];
     },
     options() {
       return {
@@ -86,6 +90,7 @@ export default {
           serial: '#',
           name: 'Product Name',
           tags:'Tags',
+          featured:'Featured',
           thumb_image: 'Thumbnail Image',
         },
         sortable: ['name'],

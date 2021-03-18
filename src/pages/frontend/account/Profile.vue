@@ -26,20 +26,20 @@
                   <span class="ant-form-text">
                       {{ user.email }}
                     </span>
-
                 </div>
                 <div class="col-12 col-md-4">
-                  <p style="color: black">Mobile</p>
-                  <span class="ant-form-text">{{ user.mobile }}</span>
+                  <a-form-model-item label="Phone Number" ref="phone_number" has-feedback="" prop="phone_number">
+                    <a-input v-model="form.phone_number" placeholder="Enter your phone number" disabled/>
+                  </a-form-model-item>
                 </div>
                 <div class="col-12 col-md-4">
                   <a-form-model-item label="Gender">
                     <a-select v-model="form.gender" placeholder="please select gender">
                       <a-select-option value="male">
-                        male
+                        Male
                       </a-select-option>
                       <a-select-option value="women">
-                        women
+                        Female
                       </a-select-option>
                     </a-select>
                   </a-form-model-item>
@@ -59,7 +59,6 @@
                   </a-button>
                 </div>
               </div>
-
 
             </a-form-model>
           </a-card>
@@ -85,6 +84,7 @@ export default {
         name: '',
         gender: undefined,
         birthday: undefined,
+        phone_number:'',
       }),
       rules: {
         name: [
@@ -129,6 +129,8 @@ export default {
   },
   created() {
     this.form.fill(this.user);
+    if (!this.addressList.length > 0) this.$store.dispatch('ADDRESS_LIST');
+    this.addressesCurrentUser;
   },
   watch: {
     user: function () {
@@ -136,7 +138,19 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({user: "currentUser"})
+    ...mapGetters({user: "currentUser",addressList:"addressList"}),
+    addressesCurrentUser() {
+      let adrs=[];
+      adrs=this.addressList.filter((e)=>{
+        if(e.user_id == this.user.id && e.default_shipping == 1 ){
+          return e;
+        }
+      })
+      if(adrs.length>0){
+        console.log(adrs);
+        this.form.phone_number=adrs[0].phone_number;
+      }
+  }
   }
 }
 </script>

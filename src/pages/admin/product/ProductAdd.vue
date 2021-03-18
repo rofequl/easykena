@@ -76,8 +76,10 @@
                     v-model="form.unit" placeholder="Unit (e.g. KG, Pc etc)"
                     @blur="() => {$refs.unit.onFieldBlur();}"/>
               </a-form-model-item>
-
-              <div data-v-246558b6="" class="ant-row ant-form-item">
+              <a-form-model-item ref="freatured" has-feedback="" label="Featured: " prop="featured">
+                <a-input type="checkbox" name="featured" v-model="form.featured" @click="checkboxClick($event,form);"/>
+              </a-form-model-item>
+              <div class="ant-row ant-form-item">
                 <div class="ant-col ant-col-sm-7 ant-col-lg-7 ant-form-item-label">
                   <label title="Tags: " class="">Tags</label>
                 </div>
@@ -163,6 +165,7 @@ export default {
         quantity: 1,
         price: 1,
         tags:[],
+        featured:0,
       }),
       subcategory: [],
       subsubcategory: [],
@@ -190,6 +193,13 @@ export default {
     }
   },
   methods: {
+    checkboxClick(e,form){
+      if(e.target.checked == true){
+        form.featured =1;
+      }else{
+        form.featured =0;
+      }
+    },
     categorySelect(e) {
       if (e !== '' && e !== undefined) {
         this.form.subcategory_id = '';

@@ -1,5 +1,12 @@
 <template>
   <div v-if="product.length > 0" style="background-color: #fff; padding: 20px;" class="rounded">
+    <div style="text-align: center;font-size: 15px;">
+      <p >
+        <span >
+          Search result for:<em><strong>{{search}}</strong></em>
+       </span>
+     </p>
+    </div>
     <a-row :gutter="16">
       <a-col :xs="{ span: 24}" :sm="{ span: 12}" :md="{ span: 8}" :lg="{ span: 6}" class="mb-4"
              v-for="(data, k) in product" :key="k">
@@ -12,10 +19,10 @@
           <p class="mb-2 font-weight-bold" style="font-size: 18px;text-align: center;">৳ {{ data.price }}</p>
           <p class="mb-0" v-if="cartProductById(data.id)">
             <!--            <button style="background-color: #d4e0de; color: #f05931" :disabled="true"> {{cartProductById(data.id).quantity}} add in Cart</button>-->
-            <span v-if="(cartProductById(data.id)?cartProductById(data.id).quantity==0:0)?$store.dispatch('Remove_CART',data):''"></span>
+            <span v-if="cartProductById(data.id).quantity==0?$store.dispatch('Remove_CART',data):''"></span>
             <b-form-spinbutton class="card-spin-button" :formatter-fn="dayFormatter"
                                v-model="cartProductById(data.id).quantity" min="0"
-                               :max="cartProductById(data.id)?cartProductById(data.id).max_qty:0"></b-form-spinbutton>
+                               :max="cartProductById(data.id).max_qty"></b-form-spinbutton>
           </p>
           <p class="mb-0" v-else>
             <button class="cart-button" @click="addToCart(data)"><i class="fas fa-shopping-cart mr-2"></i> Add to Cart
@@ -28,7 +35,6 @@
        @cancel="closeModal();">
        <div class="row" >
          <div class="col-md-6">
-
              <div class="card-header p-0" >
                <img :src="showImage(productDetailsData.thumb_image)" class="w-100" height="200px" alt="">
              </div>
@@ -40,13 +46,13 @@
              </p>
              <p class="mb-2 font-weight-bold" style="font-size: 18px;">৳ {{ productDetailsData.price }}</p>
              <p class="mb-0" v-if="cartProductById(productDetailsData.id)">
-               <!-- <span>{{cartProductById(productDetailsData.id)}}</span> -->
                <!--            <button style="background-color: #d4e0de; color: #f05931" :disabled="true"> {{cartProductById(data.id).quantity}} add in Cart</button>-->
-               <span v-if="(cartProductById(productDetailsData.id)?cartProductById(productDetailsData.id).quantity==0:0)?$store.dispatch('Remove_CART',productDetailsData):''"></span>
+                <span v-if="cartProductById(productDetailsData.id).quantity==0?$store.dispatch('Remove_CART',productDetailsData):''"></span>
                <b-form-spinbutton style="width:95%;" class="card-spin-button" :formatter-fn="dayFormatter"
                                   v-model="cartProductById(productDetailsData.id).quantity" min="0"
-                                  :max="cartProductById(productDetailsData.id)?cartProductById(productDetailsData.id).max_qty:0"></b-form-spinbutton><br>
+                                  :max="cartProductById(productDetailsData.id).max_qty"></b-form-spinbutton><br>
               <a-button class="bg-danger text-white" type="primary" style="width: 92%" @click="checkout();" v-if="this.$store.getters.cartProductCount"> Checkout</a-button>
+
              </p>
              <p class="mb-0" v-else>
                <button class="cart-button" @click="addToCart(productDetailsData)"><i class="fas fa-shopping-cart mr-2"></i> Add to Cart
@@ -58,16 +64,27 @@
       <p v-html="productDetailsData.description"></p>
     </a-modal>
   </div>
+  <div v-else class="">
+    <div style="text-align: center;padding-top: 15px;padding-bottom: 155px;font-size: 20px;">
+      <p >
+        <span >
+      Your search <em><strong>{{search}}</strong></em> did not match any products
+       </span>
+     </p>
+    </div>
+  </div>
 </template>
 <script>
 import {mapGetters} from "vuex";
+import ApiService from "@/core/services/api.service";
 
 export default {
-  props: ['product'],
-  name: "ProductListing",
+  name: "SearchResult",
   data() {
     return {
       productDetails:false,
+      search:'',
+      product:[],
       productDetailsData:{
         id:'',
         slug:'',
@@ -109,9 +126,32 @@ export default {
        }
     }
   },
-  computed: {
-    ...mapGetters(["cartProductById"])
+  watch: {
+    search: function (value) {
+      if (value) {
+        ApiService.get("search?keyword="+value)
+            .then(({data}) => {
+              this.product = data;
+            })
+            .catch(error => {
+              this.$notification['error']({
+                message: 'Warning',
+                description: ((err.response || {}).data || {}).message || 'Something Wrong',
+                style: {marginTop: '41px'},
+                duration: 4
+              })
+            })
+      } else {
+        return false;
+      }
+    }
   },
+  computed: {
+    ...mapGetters(["cartProductById"]),
+  },
+  mounted: function() {
+        this.search = this.$route.params.value
+    },
 }
 </script>
 

@@ -185,6 +185,12 @@ function configRoutes() {
                     component: () => import("@/pages/frontend/account/AddAddress")
                 },
                 {
+                    meta: {title: 'Search'},
+                    path: "/search/:value",
+                    name: "search",
+                    component: () => import("@/pages/frontend/SearchResult")
+                },
+                {
                     meta: {title: 'Checkout'},
                     path: "/checkout",
                     name: "checkout",

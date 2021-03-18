@@ -76,7 +76,7 @@
                 </div>
                 <div class="col-10 col-sm-10 col-md-12 my-2">
                   <div class="input-group cus-input-group">
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                    <input type="text" class="form-control" v-model="search"aria-label="Text input with dropdown button" placeholder="Search for products (e.g. banana, milk, potato)">
                     <button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>
                   </div>
                 </div>
@@ -111,6 +111,8 @@
 import {mapGetters} from 'vuex';
 import Cart from "@/layout/frontend/Cart";
 import Login from "@/components/Form/Login";
+import ApiService from "@/core/services/api.service";
+
 
 export default {
   name: "Header",
@@ -120,6 +122,7 @@ export default {
       scrolling: true,
       cartOpen: false,
       loginModel: false,
+      search:'',
     }
   },
   created() {
@@ -133,6 +136,15 @@ export default {
       } else {
         this.scrolling = true
         this.$store.commit('toggleSidebarTopSize', false)
+      }
+    }
+  },
+  watch: {
+    search: function (value) {
+      if (value) {
+        this.$router.push('/search/'+value).catch(err => {});
+      } else {
+        this.$router.push('/').catch(err => {});
       }
     }
   },
